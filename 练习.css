@@ -1,0 +1,32 @@
+.mycenter{
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(59,77,82);
+    display: flex;
+    justify-content: space-around;
+    align-items:flex-end;
+}
+.scrollTip{
+    left: 10vw;
+    display: inline-block;
+    width: 50px;
+}
+
+.按钮{
+    width: 5%;
+    height: 3%;
+    border-radius: 1%;
+    outline: none;
+    background-color: darkgray;
+}
+
+.按钮:hover{
+    background-color: greenyellow;
+}
+
+#排序{
+    display: flex;
+    justify-content: space-around;
+    align-items:center;
+}
+

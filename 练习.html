@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ch-zn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="练习.css">
+</head>
+
+<body>
+    <div class="home" style="height: 100vw; width: 100vw;">
+        <div style="height: 10vh ;width: 80vw; box-sizing: border-box; margin-top: 5vh; margin-left: 20vw;">
+            <form id="表单">
+                输入排序数字（空格隔开）: <input type="text" id="数组" name="数组" value="4 2 1 3"><br>
+                <div style="height: 1vh;"></div>
+                <button type="button" class="按钮" id="确认"
+                    style="margin-left: 15vw; width:7vw;height: 4vh; background-color: yellow;">确定</button>
+            </form>
+        </div>
+        <div class="mycenter" style="height: 60vh;" id="center">
+        </div>
+        <div style="height: 10vh; margin-top: 5vh;">
+            <form id="排序">
+                <button class="按钮" type="button" id="冒泡">冒泡排序</button>
+                <button class="按钮" type="button" id="选择">选择排序</button>
+                <button class="按钮" type="button" id="插入">插入排序</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        var button = document.querySelector("#确认");
+        var maopao = document.querySelector('#冒泡');
+        var select = document.querySelector('#选择');
+        var inset = document.querySelector('#插入');
+        var mycenter = document.getElementById("center");
+        var arr = document.getElementById('数组').value.split(' ').map(Number);
+
+        button.onclick = function () {
+            arr = document.getElementById('数组').value.split(' ').map(Number);
+            arr.map((x) => {
+                var adds = document.createElement('span');
+                adds.style.width = '5vw';
+                adds.style.backgroundColor = 'turquoise';
+                adds.style.height = x * 10 + 'px';
+                adds.innerHTML = x;
+                mycenter.appendChild(adds);
+            });
+        }
+        maopao.onclick = function () {
+            let ttt = mp();
+            setInterval(() => {
+                if (ttt.next().done)
+                    clearInterval(ttt);
+            }, 500);
+            document.getElementById('数组').value='';
+        }
+
+        select.onclick = function () {
+            let ttt = selectionSort();
+            setInterval(() => {
+                if (ttt.next().done)
+                    clearInterval(ttt);
+            }, 500);
+            document.getElementById('数组').value='';
+        }
+
+        inset.onclick = function () {
+            let ttt = insertionSort();
+            setInterval(() => {
+                if (ttt.next().done)
+                    clearInterval(ttt);
+            }, 500);
+            document.getElementById('数组').value='';
+        }
+
+        function* mp() {
+            mycenter = document.getElementById("center");
+            let len = mycenter.children.length;
+            for (let i = 0; i < len - 1; i++) {
+                for (let j = 0; j < len - 1 - i; j++) {
+                    mycenter.children[j].style.backgroundColor = 'yellow';
+                    yield 0;
+                    mycenter.children[j + 1].style.backgroundColor = 'yellow';
+                    if (arr[j] > arr[j + 1]){
+                        console.log(arr[j]>arr[j+1]);
+                        swap(j,j+1);
+                        }
+                    mycenter.children[j].style.backgroundColor = 'turquoise';
+                }
+            }
+            mycenter.children[0].style.backgroundColor = 'yellow';
+        }
+
+        function* selectionSort() {
+            var len = arr.length;
+            var minIndex, temp;
+            for (var i = 0; i < len - 1; i++) {
+                minIndex = i;
+                yield 0;
+                for (var j = i + 1; j < len; j++) {
+                    console.log(arr);
+                    console.log(i);
+                    console.log(j);
+                    mycenter.children[j].style.backgroundColor = 'yellow';
+                    yield 0;
+                    if (arr[j] < arr[minIndex]) {     // 寻找最小的数
+                        if(i!=minIndex)
+                            mycenter.children[minIndex].style.backgroundColor = 'turquoise';
+                        minIndex = j;              // 将最小数的索引保存
+                        mycenter.children[minIndex].style.backgroundColor = 'yellow';
+                    }
+                    else{
+                        mycenter.children[j].style.backgroundColor = 'turquoise';
+                    }
+                }
+                mycenter.children[minIndex].style.backgroundColor = 'yellow';
+                swap(i, minIndex);
+            }
+            mycenter.children[len-1].style.backgroundColor = 'yellow';
+        }
+
+        function* insertionSort() {
+            var len = arr.length;
+            var preIndex, current;
+            for (var i = 1; i < len; i++) {
+                preIndex = i - 1;
+                current = arr[i];
+                yield 0;
+                mycenter.children[preIndex + 1].style.backgroundColor = 'yellow';
+                while (preIndex >= 0 && arr[preIndex] > current) {
+                    yield 0;
+                    mycenter.children[preIndex].style.backgroundColor = 'purple';
+                    swap(preIndex, preIndex + 1);
+                    yield 0;
+                    mycenter.children[preIndex+1].style.backgroundColor = 'yellow';
+                    preIndex--;
+                }
+            }
+        }
+
+        function swap(i, j) {
+            let t = arr[i];
+            arr[i] = arr[j];
+            arr[j] = t;
+            var istyle = mycenter.children[i].getAttribute('style');
+            console.log(istyle);
+            var jstyle = mycenter.children[j].getAttribute('style');
+            console.log(jstyle);
+            mycenter.children[i].setAttribute('style', jstyle);
+            mycenter.children[i].innerHTML = arr[i];
+            mycenter.children[j].setAttribute('style', istyle);
+            mycenter.children[j].innerHTML = arr[j];
+        }
+    </script>
+</body>
+
+</html>
